@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BP_recognition.m
-% Ê¹ÓÃANN½øĞĞÈËÁ³Ê¶±ğ
+% ä½¿ç”¨ANNè¿›è¡Œäººè„¸è¯†åˆ«
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 clear,clc
@@ -10,29 +10,29 @@ for u=1:10
 trainset=[1:u-1,u+1:10];
 testset=u;
 
-class=40;%¹²ÓĞ40ÈË¡£¼´ÓĞ40Àà
-size1=112*92;%Ã¿ÕÅÍ¼µÄ´óĞ¡
-path='F:\matlab\ÈËÁ³Ê¶±ğ×îÖÕ°æ\ORL\s';
+class=40;%å…±æœ‰40äººã€‚å³æœ‰40ç±»
+size1=112*92;%æ¯å¼ å›¾çš„å¤§å°
+path='F:\matlab\äººè„¸è¯†åˆ«æœ€ç»ˆç‰ˆ\ORL\s';
 
-%% ÖØ¹¹ÑµÁ·¼¯training set
-% step1.¶Ôset½øĞĞPCA½µÎ¬
-% step2.´ò±êÇ©
+%% é‡æ„è®­ç»ƒé›†training set
+% step1.å¯¹setè¿›è¡ŒPCAé™ç»´
+% step2.æ‰“æ ‡ç­¾
 [P,T,base]=rebuild_traindataset(path,class,trainset,size1);
 T1=[];
 for i=1:length(trainset)*class
     T1(i)=find(T(:,i)~=0);
 end
 
-%% ÖØ¹¹²âÊÔ¼¯test set
+%% é‡æ„æµ‹è¯•é›†test set
 [P_test,T_test]=rebuild_testdataset(path,class,testset,size1,base);
 T1_test=[];
 for i=1:length(testset)*class
     T1_test(i)=find(T_test(:,i)~=0);
 end
 
-%% ÑµÁ·SVM·ÖÀàÆ÷
+%% è®­ç»ƒSVMåˆ†ç±»å™¨
 model = libsvmtrain(T1',P','-s 1 -t 2');
-%matlab×Ô´øµÄsvm½Ğsvmtrain£¬ÎªÁËÇø±ğ£¬ÖØÃüÃûlibsvmµÄº¯Êı£¨Ç°Ãæ¼Ólib£©
+%matlabè‡ªå¸¦çš„svmå«svmtrainï¼Œä¸ºäº†åŒºåˆ«ï¼Œé‡å‘½ålibsvmçš„å‡½æ•°ï¼ˆå‰é¢åŠ libï¼‰
  % Usage: model = libsvmtrain(weight_vector, training_label_vector, training_instance_matrix, 'libsvm_options');
     % libsvm_options:
     % -s svm_type : set type of SVM (default 0)
@@ -42,11 +42,11 @@ model = libsvmtrain(T1',P','-s 1 -t 2');
     % 	3 -- epsilon-SVR
     % 	4 -- nu-SVR
     % -t kernel_type : set type of kernel function (default 2)
-    % 	0 -- ÏßĞÔ£ºlinear: u'*v
-    % 	1 -- ¶àÏîÊ½£ºpolynomial: (gamma*u'*v + coef0)^degree
-    % 	2 -- ¾¶Ïò»ùº¯Êı£ºradial basis function: exp(-gamma*|u-v|^2)
+    % 	0 -- çº¿æ€§ï¼šlinear: u'*v
+    % 	1 -- å¤šé¡¹å¼ï¼špolynomial: (gamma*u'*v + coef0)^degree
+    % 	2 -- å¾„å‘åŸºå‡½æ•°ï¼šradial basis function: exp(-gamma*|u-v|^2)
     % 	3 -- sigmoid: tanh(gamma*u'*v + coef0)
-    % 	4 -- ÓÃ»§×Ô¶¨ÒåºËº¯Êı£ºprecomputed kernel (kernel values in training_instance_matrix)
+    % 	4 -- ç”¨æˆ·è‡ªå®šä¹‰æ ¸å‡½æ•°ï¼šprecomputed kernel (kernel values in training_instance_matrix)
     % -d degree : set degree in kernel function (default 3)
     % -g gamma : set gamma in kernel function (default 1/num_features)
     % -r coef0 : set coef0 in kernel function (default 0)
@@ -61,13 +61,13 @@ model = libsvmtrain(T1',P','-s 1 -t 2');
     % -v n : n-fold cross validation mode
     % -q : quiet mode (no outputs)
 
-%% ²âÊÔ
+%% æµ‹è¯•
 % [predictlabel,accuracy] = libsvmpredict(testdatalabel,testdata,model);
 for i=1:2
     a=libsvmpredict(T1_test(i),P_test(:,i)',model)
 end
 
-%% Í³¼ÆÕıÈ·ÂÊ
+%% ç»Ÿè®¡æ­£ç¡®ç‡
 right=0;
 for i=1:length(testset)*class
     a(i) = libsvmpredict(T1_test(i),P_test(:,i)',model);
