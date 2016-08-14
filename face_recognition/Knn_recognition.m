@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Knn_recognition.m
-% Ê¹ÓÃKNN½øĞĞÈËÁ³Ê¶±ğ
+% ä½¿ç”¨KNNè¿›è¡Œäººè„¸è¯†åˆ«
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 clc
@@ -9,37 +9,37 @@ trainset=[1:u-1,u+1:10];
 testset=u;
 
 
-class=40;%¹²ÓĞ40ÈË¡£¼´ÓĞ40Àà
-size1=112*92;%Ã¿ÕÅÍ¼µÄ´óĞ¡
-path='F:\matlab\ÈËÁ³Ê¶±ğ×îÖÕ°æ\ORL\s';
-k=3;%Ç°3¸ö×î½üÁÚ
+class=40;%å…±æœ‰40äººã€‚å³æœ‰40ç±»
+size1=112*92;%æ¯å¼ å›¾çš„å¤§å°
+path='F:\matlab\äººè„¸è¯†åˆ«æœ€ç»ˆç‰ˆ\ORL\s';
+k=3;%å‰3ä¸ªæœ€è¿‘é‚»
 
-%% ÖØ¹¹ÑµÁ·¼¯training set
-% step1.¶Ôset½øĞĞPCA½µÎ¬
-% step2.´ò±êÇ©
+%% é‡æ„è®­ç»ƒé›†training set
+% step1.å¯¹setè¿›è¡ŒPCAé™ç»´
+% step2.æ‰“æ ‡ç­¾
 [P,T,base]=rebuild_traindataset(path,class,trainset,size1);
 
-%% ÖØ¹¹²âÊÔ¼¯test set
-% step1.¶Ôset½øĞĞPCA½µÎ¬
-% step2.´ò±êÇ©
+%% é‡æ„æµ‹è¯•é›†test set
+% step1.å¯¹setè¿›è¡ŒPCAé™ç»´
+% step2.æ‰“æ ‡ç­¾
 [P_test,T_test]=rebuild_testdataset(path,class,testset,size1,base);
 
-%% ²âÊÔ
-%Ñ¡ÓÃ3¸ö×î½üÁÚ£¬Ê¹ÓÃ¾àÀëº¯ÊıÊÇ'cityblock'
-%Ö»Ê¹ÓÃÒ»¸ö²âÊÔÑù±¾½øĞĞ²âÊÔ
+%% æµ‹è¯•
+%é€‰ç”¨3ä¸ªæœ€è¿‘é‚»ï¼Œä½¿ç”¨è·ç¦»å‡½æ•°æ˜¯'cityblock'
+%åªä½¿ç”¨ä¸€ä¸ªæµ‹è¯•æ ·æœ¬è¿›è¡Œæµ‹è¯•
 % index=knnsearch(P',P_test(:,1)','dist','cityblock','k',k);
 % if (find(T(:,index(1))==0.9)~=find(T(:,index(2))==0.9)) & (find(T(:,index(1))==0.9)~=find(T(:,index(3))==0.9)) & (find(T(:,index(2))==0.9)~=find(T(:,index(3))==0.9))
-%     fprintf('¸ÃÍ¼Æ¬ÊÇ£ºs%d\n',find(T(:,index(1))==0.9))
+%     fprintf('è¯¥å›¾ç‰‡æ˜¯ï¼šs%d\n',find(T(:,index(1))==0.9))
 % elseif find(T(:,index(1))==0.9)==find(T(:,index(2))==0.9)
-%     fprintf('¸ÃÍ¼Æ¬ÊÇ£ºs%d\n',find(T(:,index(1))==0.9))
+%     fprintf('è¯¥å›¾ç‰‡æ˜¯ï¼šs%d\n',find(T(:,index(1))==0.9))
 % elseif find(T(:,index(1))==0.9)==find(T(:,index(3))==0.9)
-%     fprintf('¸ÃÍ¼Æ¬ÊÇ£ºs%d\n',find(T(:,index(1))==0.9))
+%     fprintf('è¯¥å›¾ç‰‡æ˜¯ï¼šs%d\n',find(T(:,index(1))==0.9))
 % elseif find(T(:,index(2))==0.9)==find(T(:,index(3))==0.9)
-%     fprintf('¸ÃÍ¼Æ¬ÊÇ£ºs%d\n',find(T(:,index(2))==0.9))
+%     fprintf('è¯¥å›¾ç‰‡æ˜¯ï¼šs%d\n',find(T(:,index(2))==0.9))
 % end
-% fprintf('Êµ¼Ê¸ÃÍ¼Æ¬ÊÇ£ºs%d\n',find(T_test(:,1)==0.9))
+% fprintf('å®é™…è¯¥å›¾ç‰‡æ˜¯ï¼šs%d\n',find(T_test(:,1)==0.9))
 
-%% Í³¼ÆÕıÈ·ÂÊ
+%% ç»Ÿè®¡æ­£ç¡®ç‡
 acc=0;
 index=knnsearch(P',P_test','dist','cityblock','k',k);
 for i=1:class*length(testset)
@@ -55,9 +55,9 @@ for i=1:class*length(testset)
     if t==find(T_test(:,i)==0.9)
         acc=acc+1;
     else
-%         fprintf('¸ÃÍ¼Æ¬Êµ¼ÊÊÇ£ºs%d£¬±»·Ö³ÉÁË£ºs%d\n',find(T_test(:,i)==0.9),t)
+%         fprintf('è¯¥å›¾ç‰‡å®é™…æ˜¯ï¼šs%dï¼Œè¢«åˆ†æˆäº†ï¼šs%d\n',find(T_test(:,i)==0.9),t)
     end
 end
 
-fprintf('%dÕÅÑµÁ·Í¼Æ¬,%dÕÅ²âÊÔÍ¼Æ¬£¬×¼È·ÂÊÎª£º%d\n',class*length(trainset),class*length(testset),acc/(class*length(testset)))
+fprintf('%då¼ è®­ç»ƒå›¾ç‰‡,%då¼ æµ‹è¯•å›¾ç‰‡ï¼Œå‡†ç¡®ç‡ä¸ºï¼š%d\n',class*length(trainset),class*length(testset),acc/(class*length(testset)))
 end
