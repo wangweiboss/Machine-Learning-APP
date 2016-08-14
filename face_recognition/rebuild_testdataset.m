@@ -10,17 +10,17 @@ for i=1:class
         b=double(b);
         allsamples=[allsamples; b];
         k=k+1;
-        T((i-1)*length(set)+k,i)=0.9;%ÈËÎª´ò±êÇ©
+        T((i-1)*length(set)+k,i)=0.9;%äººå·¥æ‰“æ ‡ç­¾
     end
     k=0;
 end
 
-allcoor = allsamples * base;%²âÊÔ¼¯µÄÈËÁ³Í¼ÏñÖ÷·ÖÁ¿200x71
-[ P,PS]= mapminmax(allcoor);%¹éÒ»»¯
-% step2.²âÊÔ¼¯µÄÖØ½¨
+allcoor = allsamples * base;%æµ‹è¯•é›†çš„äººè„¸å›¾åƒä¸»åˆ†é‡200x71
+[ P,PS]= mapminmax(allcoor);%å½’ä¸€åŒ–
+% step2.æµ‹è¯•é›†çš„é‡å»º
 gx2(:,1:n)=P;
 gx2(:,n+1:class+n)=T;
-%²âÊÔÑù±¾Ë³Ğò´òÂÒ
+%æµ‹è¯•æ ·æœ¬é¡ºåºæ‰“ä¹±
 xd=gx2(randperm(numel(gx2)/(class+n)),:);
 % xd=gx2;
 gx=xd(:,1:n);d=xd(:,n+1:class+n);
