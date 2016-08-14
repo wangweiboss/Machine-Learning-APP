@@ -10,42 +10,42 @@ for i=1:class
         b=double(b);
         allsamples=[allsamples; b];
         k=k+1;
-        T((i-1)*length(set)+k,i)=0.9;%ÈËÎª´ò±êÇ©
+        T((i-1)*length(set)+k,i)=0.9;%äººä¸ºæ‰“æ ‡ç­¾
     end
     k=0;
 end
 
-samplemean=mean(allsamples); %Çó³öÃ¿ĞĞµÄÆ½¾ùÖµ
+samplemean=mean(allsamples); %æ±‚å‡ºæ¯è¡Œçš„å¹³å‡å€¼
 for i=1:class*length(set)
-    xmean(i,:)=allsamples(i,:)-samplemean; % Æ½¾ùÁ³
+    xmean(i,:)=allsamples(i,:)-samplemean; % å¹³å‡è„¸
 end
-% »ñÈ¡ÌØÕ÷Öµ¼°ÌØÕ÷ÏòÁ¿
-sigma=xmean*xmean'; %ĞÎ³ÉÆ«²î¾ØÕó
+% è·å–ç‰¹å¾å€¼åŠç‰¹å¾å‘é‡
+sigma=xmean*xmean'; %å½¢æˆåå·®çŸ©é˜µ
 [v d]=eig(sigma);% sigma*V = V*D.
 d1=diag(d);
-% °´ÌØÕ÷Öµ´óĞ¡ÒÔ½µĞòÅÅÁĞ
+% æŒ‰ç‰¹å¾å€¼å¤§å°ä»¥é™åºæ’åˆ—
 dsort = flipud(d1);
 vsort = fliplr(v);
-%ÒÔÏÂÑ¡Ôñ 90%µÄÄÜÁ¿
+%ä»¥ä¸‹é€‰æ‹© 90%çš„èƒ½é‡
 dsum = sum(dsort);
 dsum_extract = 0;
 p = 0;
-while( dsum_extract/dsum < 0.9)%Ñ¡È¡90%µÄÖ÷³É·Ö
+while( dsum_extract/dsum < 0.9)%é€‰å–90%çš„ä¸»æˆåˆ†
     p = p + 1;
     dsum_extract = sum(dsort(1:p));
     ddd(p)=dsum_extract/dsum;
 end
 
-%% step2.ÖØ¹¹ÑµÁ·¼¯training set
-% ¼ÆËãÌØÕ÷Á³ĞÎ³ÉµÄ×ø±êÏµ
-base = xmean' * vsort(:,1:p) * diag(dsort(1:p).^(-1/2));%Õı½»¹éÒ»ÌØÕ÷ÏòÁ¿
+%% step2.é‡æ„è®­ç»ƒé›†training set
+% è®¡ç®—ç‰¹å¾è„¸å½¢æˆçš„åæ ‡ç³»
+base = xmean' * vsort(:,1:p) * diag(dsort(1:p).^(-1/2));%æ­£äº¤å½’ä¸€ç‰¹å¾å‘é‡
 
-allcoor = allsamples * base;%ÑµÁ·¼¯µÄÈËÁ³Í¼ÏñÖ÷·ÖÁ¿200x71
-[P PS]= mapminmax(allcoor);%¹éÒ»»¯
-% step2.ÑµÁ·¼¯µÄÖØ½¨
+allcoor = allsamples * base;%è®­ç»ƒé›†çš„äººè„¸å›¾åƒä¸»åˆ†é‡200x71
+[P PS]= mapminmax(allcoor);%å½’ä¸€åŒ–
+% step2.è®­ç»ƒé›†çš„é‡å»º
 gx2(:,1:p)=P;
 gx2(:,p+1:p+class)=T;
-%ÑµÁ·Ñù±¾Ë³Ğò´òÂÒ
+%è®­ç»ƒæ ·æœ¬é¡ºåºæ‰“ä¹±
 xd=gx2(randperm(numel(gx2)/(p+class)),:);
 % xd=gx2;
 gx=xd(:,1:p);d=xd(:,p+1:p+class);
