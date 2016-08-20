@@ -3,6 +3,7 @@ load hald; %其中ingredients 为matlab自带
 X = zscore(ingredients); 
 %% 方法1
 [pc, score, latent,tsquare]=pca(X); % 不会给你去均值，拿来就算协方差 (X'*X)./n
+%matlab计算pca(X)和pca(X')的速度差不多，所以若用pca，直接输原矩阵就行，不用考虑间接求
 
 %% 方法2
 cov_ingredients =cov(X);% cov(X)去了均值，所以不等于(X'*X)./12，要用cov，最好将原始数据标准化;  %(X'*X)./12;
@@ -20,3 +21,4 @@ cov_ingredients1 =(X*X')./3;% cov(X');%(X*X')./3;用cov会有偏差
 1.cov有没有去均值
 2.pca和princomp有没有去均值
 3.ss和dd以及V和V1的转换用vv，但是dd、V、V1的归一化用latent
+4.用pca函数就不用考虑转换，用方法2和3可以考虑转换，特别是2，eig求大矩阵特别慢
