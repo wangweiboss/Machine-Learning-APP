@@ -1,15 +1,22 @@
 clc,clear
-load hald; %ÆäÖĞingredients Îªmatlab×Ô´ø  
+load hald; %å…¶ä¸­ingredients ä¸ºmatlabè‡ªå¸¦  
 X = zscore(ingredients); 
-%% ·½·¨1
-[pc, score, latent,tsquare]=pca(X); % ²»»á¸øÄãÈ¥¾ùÖµ£¬ÄÃÀ´¾ÍËãĞ­·½²î (X'*X)./n
-%% ·½·¨2
-cov_ingredients =cov(X);% cov(X)È¥ÁË¾ùÖµ£¬ËùÒÔ²»µÈÓÚ(X'*X)./12£¬ÒªÓÃcov£¬×îºÃ½«Ô­Ê¼Êı¾İ±ê×¼»¯;  %(X'*X)./12;
+%% æ–¹æ³•1
+[pc, score, latent,tsquare]=pca(X); % ä¸ä¼šç»™ä½ å»å‡å€¼ï¼Œæ‹¿æ¥å°±ç®—åæ–¹å·® (X'*X)./n
+
+%% æ–¹æ³•2
+cov_ingredients =cov(X);% cov(X)å»äº†å‡å€¼ï¼Œæ‰€ä»¥ä¸ç­‰äº(X'*X)./12ï¼Œè¦ç”¨covï¼Œæœ€å¥½å°†åŸå§‹æ•°æ®æ ‡å‡†åŒ–;  %(X'*X)./12;
 [V,D]=eig(cov_ingredients);    % D=latent,pc=v  
 
-cov_ingredients1 =(X*X')./3;% cov(X');%(X*X')./3;ÓÃcov»áÓĞÆ«²î
+cov_ingredients1 =(X*X')./3;% cov(X');%(X*X')./3;ç”¨covä¼šæœ‰åå·®
 [V1,D1]=eig(cov_ingredients1);    
-%V1ºÍVµÄ¹ØÏµ£ºV1(i)=X*V(i)/vv(µ¹×ÅÀ´,µ¹×ÅÀ´) ÒòÎªDºÍD1ÊÇ´ÓĞ¡µ½´óÅÅµÄ£¬vvÊÇ´Ó´óµ½Ğ¡ÅÅµÄ£¬ËùÒÔÒªµ¹×Å
-%% ·½·¨3
+%V1å’ŒVçš„å…³ç³»ï¼šV1(i)=X*V(i)/vv(å€’ç€æ¥,å€’ç€æ¥) å› ä¸ºDå’ŒD1æ˜¯ä»å°åˆ°å¤§æ’çš„ï¼Œvvæ˜¯ä»å¤§åˆ°å°æ’çš„ï¼Œæ‰€ä»¥è¦å€’ç€
+
+%% æ–¹æ³•3
 [ss,vv,dd] = svd(X);  %ss==V1,vv^2==D*12==D1*3,dd==V
-%ssºÍddµÄ¹ØÏµ£ºss(i)=X*dd(i)/vv(i,i)
+%sså’Œddçš„å…³ç³»ï¼šss(i)=X*dd(i)/vv(i,i) è¦ä¸€åˆ—ä¸€åˆ—çš„é™¤ï¼Œå¦åˆ™ä¼šå‡ºç°inf
+
+æ³¨æ„ï¼š
+1.covæœ‰æ²¡æœ‰å»å‡å€¼
+2.pcaå’Œprincompæœ‰æ²¡æœ‰å»å‡å€¼
+3.sså’Œddä»¥åŠVå’ŒV1çš„è½¬æ¢ç”¨vvï¼Œä½†æ˜¯ddã€Vã€V1çš„å½’ä¸€åŒ–ç”¨latent
